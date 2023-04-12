@@ -1,4 +1,4 @@
-setwd("/Users/rida/Desktop/EPM")
+setwd("/Users/Team Meyer Lab/Desktop/EPM videos")
 library(readxl); #read Excel data into R
 library(writexl);#export data frames in R into Excel
 library(ggplot2); #make various graphs
@@ -11,9 +11,9 @@ library(multcomp); #simultaneous inference in linear models
 library(tidyverse) #collection of R packages for data manipulation and visualization, includes %>% (pipe operator from magrittr package)
 
 #### Curated data file ####
-EPM <- read_xlsx(sheet = 1, 'EPM Videos.xlsx')
+EPM <- read_xlsx(sheet = 11, 'AE masterdoc.xlsx')
 EPM_long <- EPM %>%
-  rstatix::select(MouseID, Condition:c("Time spent in open arms")) %>%
+  select(MouseID, Condition:c("Time spent in open arms")) %>%
   pivot_longer(cols = c("Freeze (first 2 min)"):c("Time spent in open arms"), names_to = "Behavior", values_to = "Response")
 
 fig_stats <- function(x) 
@@ -22,14 +22,28 @@ fig_stats <- function(x)
                  n    = n(),
                  sem  = sd / sqrt(n))}
 
-EPM_all <- EPM_long %>%
-  filter(!is.na(Response)) %>%
-  group_by(Behavior, Condition, Sex, Age) %>% 
+EPM_grouping <- EPM_long %>% 
+  unite(Group, c(Condition, Sex), sep = " ", remove = FALSE)
+# to do - have an all, have some for each behavior, and then filter in the speciifc calls or jsut re-organize so 
+# the plot is made right after the dataframe is made.
+
+# code from AE code_EPM.R (line 178)
+# EPM_time <- EPM %>% filter(Age == "Adolescent", Sex == "Female",
+#                            !Epoch == "Total_Distance_traveled_cm", !Epoch == "Mean_Velocity_cm_s", !Epoch == "Open_Time",
+#                            !Epoch == "Closed_Frequency", !Epoch == "Open_Frequency", !Epoch == "Middle_Frequency", 
+#                            !Epoch == "Investigation_Time", !Epoch == "Investigation_Frequency", !Epoch == "boli")
+# EPM_time_model <- anova_test(data = EPM_time, dv = Response, wid = MouseID, between = c(Condition), within = Epoch, effect.size = "pes")
+# EPM_time_model
+
+#these have been sorted to account for just freezing behaviors 
+EPM_all <- EPM_grouping %>%
+  filter(!is.na(Response), Behavior == "Freeze (first 2 min)") %>%
+  group_by(Group, Age) %>% 
   fig_stats
 
 EPM_stats_age_sex <- EPM_long %>%
-  filter(!is.na(Response)) %>%
-  group_by(Behavior, Age, Sex) %>% 
+  filter(!is.na(Response), Behavior == "Freeze (first 2 min)") %>%
+  group_by(Age, Sex) %>% 
   fig_stats
 
 EPM_stats_age_condition <- EPM_long %>%
@@ -43,7 +57,7 @@ EPM_stats_sex_condition <- EPM_long %>%
   fig_stats
 
 EPM_stats_condition <- EPM_long %>%
-  filter(!is.na(Response)) %>%
+  filter(!is.na(Response), Behavior == "Freeze (first 2 min)") %>%
   group_by(Behavior, Condition) %>% 
   fig_stats
 
@@ -68,15 +82,16 @@ p_visual <- ggplot(EPM_all, aes(x = Behavior, y = mean, fill = interaction(Sex,A
 
 p_visual
 
-p_1 <- ggplot(EPM_stats_condition, aes(x = Behavior, y = mean, fill = reorder(Condition, mean))) + 
+#this has been changed so its just freezing specifically !
+p_1 <- ggplot(EPM_stats_condition, aes(x = Condition, y = mean, fill = reorder(Condition, mean))) + 
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Time for Various Behaviors in EPM Based on Condition") +
   scale_fill_manual(name = "Condition", values = c("#fca8d5","#c893ea","#64b5ff")) +
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .1, color = "#75797c", 
                 position = position_dodge(width = 0.9)) + 
-  scale_x_discrete(name="Behavior", labels = c("Freezing", "Latency to Middle", "Time in Open Arms")) + 
-  scale_y_continuous("Time (seconds)", breaks= seq(0, 200,20)) +
-  theme_classic()
+  scale_y_continuous("Time (seconds)", breaks= seq(0, 200,1)) +
+  theme_classic() +
+  theme(legend.position = "none")
 
 p_1
 
@@ -104,18 +119,20 @@ p_3 <- ggplot(EPM_stats_sex, aes(x = Behavior, y = mean, fill = reorder(Sex, mea
 
 p_3
 
-p_4 <- ggplot(EPM_stats_age_sex, aes(x = Behavior, y = mean, fill = interaction(Sex,Age))) + 
+# age on x, time on y, legend two ages
+# grouped by 6 condition-sex interactions
+p_4 <- ggplot(EPM_all, aes(x = Group, y = mean, fill = Age)) + 
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Time for Various Behaviors in EPM Based on Age and Sex") +
-  scale_fill_manual(name = "Group", labels = c("Adolescent Female", "Adult Female", "Adolescent Male", "Adult Male"),
-                    values = c("#a9a7d5","#756a92","#b1d0c5","#84a197")) +
+  scale_fill_manual(name = "Group",
+                    values = c("#a9a7d5","#756a92","#b1d0c5","#84a197", "red", "black")) + #only two colors used
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .1, color = "#464747", 
                 position = position_dodge(width = 0.9)) + 
-  scale_x_discrete(name="Behavior", labels = c("Freezing", "Latency to Middle", "Time in Open Arms")) + 
-  scale_y_continuous("Time (seconds)", breaks= seq(0, 200,20)) +
+  scale_y_continuous("Time (seconds)", breaks= seq(0, 27,3), expand = c(0, 0)) +
   theme_classic()
 
 p_4
+#broken down by condition, so condition as the group and then the various age-sex combos. i think
 
 p_5 <- ggplot(EPM_stats_age_condition, aes(x = Behavior, y = mean, fill = interaction(Age, Condition))) + 
   geom_col(position = position_dodge2(width = 0.7)) +
@@ -143,6 +160,19 @@ p_6 <- ggplot(EPM_stats_sex_condition, aes(x = Behavior, y = mean, fill = intera
 
 p_6
 
+EPM_freezing <- EPM_long %>%
+  filter(!is.na(Response), Behavior == "Freeze (first 2 min)")
+#anova revealed that condition and age were significant so we need to further analyze that with t-tests
+EPM_freezing_model <- anova_test(data = EPM_freezing, dv = Response, wid = MouseID, between = c(Condition, Age, Sex), effect.size = "pes")
+
+EPM_freezing_Posthoc_T_Sex <- EPM_freezing %>% t_test(Response ~ Sex, var.equal = TRUE, paired = FALSE)
+# t statistic is -2.55, take abs value so thats the diff btwn fem and male
+EPM_freezing_Posthoc_T_Condition <- EPM_freezing %>% t_test(Response ~ Condition, var.equal = TRUE, paired = FALSE)
+# t statistic x 3 bc 3 conditions
+# statistically significant for homecage v safety (this is all in freezing condition btw)
+
+
+#trying out heatmaps
 p_eee <- ggplot(EPM_all, aes(Behavior, Condition, Sex, Age)) +
   scale_x_discrete(name="Behavior", labels = c("Freezing", "Latency to Middle", "Time in Open Arms")) + 
   geom_raster(aes(fill = mean))
