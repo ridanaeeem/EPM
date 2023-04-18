@@ -25,17 +25,6 @@ fig_stats <- function(x)
                  n    = n(),
                  sem  = sd / sqrt(n))}
 
-# to do - have an all, have some for each behavior, and then filter in the speciifc calls or jsut re-organize so 
-# the plot is made right after the dataframe is made.
-
-# code from AE code_EPM.R (line 178)
-# EPM_time <- EPM %>% filter(Age == "Adolescent", Sex == "Female",
-#                            !Epoch == "Total_Distance_traveled_cm", !Epoch == "Mean_Velocity_cm_s", !Epoch == "Open_Time",
-#                            !Epoch == "Closed_Frequency", !Epoch == "Open_Frequency", !Epoch == "Middle_Frequency", 
-#                            !Epoch == "Investigation_Time", !Epoch == "Investigation_Frequency", !Epoch == "boli")
-# EPM_time_model <- anova_test(data = EPM_time, dv = Response, wid = MouseID, between = c(Condition), within = Epoch, effect.size = "pes")
-# EPM_time_model
-
 EPM <- read_xlsx(sheet = 1, 'AE masterdoc.xlsx')
 EPM_long <- EPM %>%
   rstatix::select(MouseID, Condition:c("Time spent in open arms")) %>%
