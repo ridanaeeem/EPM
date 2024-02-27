@@ -123,7 +123,7 @@ p_1b <- ggplot(EPM_freezing_c_a, aes(x = Group, y = mean, fill = Sex)) +
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Time Freezing  in First Two Minutes of EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#90D192","#658066")) + #only two colors used
+                    values = c("#90D192","#658066")) +
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .3, color = "#424E43", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0,20,2), limits=c(0,20), expand = c(0, 0)) +
@@ -142,7 +142,7 @@ p_2b <- ggplot(EPM_latency_c_a, aes(x = Group, y = mean, fill = Sex)) +
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Latency to Middle in EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#90D192","#658066")) + #only two colors used
+                    values = c("#90D192","#658066")) + 
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .3, color = "#424E43", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0, 200,20), limits=c(0,200), expand = c(0, 0)) +
@@ -161,7 +161,7 @@ p_3b <- ggplot(EPM_openarms_c_a, aes(x = Group, y = mean, fill = Sex)) +
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Time Spent in Open Arms in EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#90D192","#658066")) + #only two colors used
+                    values = c("#90D192","#658066")) + 
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .3, color = "#424E43", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0, 250,20), limits=c(0,250), expand = c(0, 0)) +
@@ -188,7 +188,7 @@ p_1c <- ggplot(EPM_freezing_a_s, aes(x = Group, y = mean, fill = reorder(Conditi
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Time Freezing in First Two Minutes of EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#fca8d5","#c893ea", "#64b5ff")) + #only two colors used
+                    values = c("#fca8d5","#c893ea", "#64b5ff")) +
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .3, color = "#464747", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0,20,2),limits=c(0,20),expand = c(0, 0)) +
@@ -206,7 +206,7 @@ p_2c <- ggplot(EPM_latency_a_s, aes(x = Group, y = mean, fill = reorder(Conditio
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Latency to Middle in EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#fca8d5","#c893ea", "#64b5ff")) + #only two colors used
+                    values = c("#fca8d5","#c893ea", "#64b5ff")) + 
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .3, color = "#464747", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0, 200,20),limits=c(0,200), expand = c(0, 0)) +
@@ -224,7 +224,7 @@ p_3c <- ggplot(EPM_openarms_a_s, aes(x = Group, y = mean, fill = reorder(Conditi
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Time Spent in Open Arms in EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#fca8d5","#c893ea", "#64b5ff")) + #only two colors used
+                    values = c("#fca8d5","#c893ea", "#64b5ff")) + 
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .3, color = "#464747", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0, 250,20), limits=c(0,250),expand = c(0, 0)) +
@@ -330,7 +330,8 @@ p_3 <- ggplot(EPM_stats_sex_condition, aes(x = Behavior, y = mean, fill = intera
                 position = position_dodge(width = 0.9)) + 
   theme(axis.title.x = element_blank()) +
   scale_y_continuous("Average Time (seconds)",breaks= seq(0,15,1), limits=c(0,15), expand = c(0, 0)) +
-  theme_classic()
+  theme_classic() +
+  ggplot2::theme(axis.title.x=element_blank())
 
 p_3
 
@@ -388,7 +389,7 @@ p_6 <- ggplot(EPM_freezing_s_a, aes(x = Condition, y = mean, fill = Group)) +
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Time Freezing in First Two Minutes EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#EC9797","#B66666", "#7FA9C7", "#4A7DA2")) + #only two colors used
+                    values = c("#EC9797","#B66666", "#7FA9C7", "#4A7DA2")) + 
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .23, color = "#464747", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0,20,2),limits=c(0,20),expand = c(0, 0)) +
@@ -417,7 +418,7 @@ p_7 <- ggplot(EPM_latency_s_a, aes(x = Condition, y = mean, fill = Group)) +
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Latency to Middle in EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#EC9797","#B66666", "#7FA9C7", "#4A7DA2")) + #only two colors used
+                    values = c("#EC9797","#B66666", "#7FA9C7", "#4A7DA2")) +
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .23, color = "#464747", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0,200,20),limits=c(0,200),expand = c(0, 0)) +
@@ -446,7 +447,7 @@ p_8 <- ggplot(EPM_openarms_s_a, aes(x = Condition, y = mean, fill = Group)) +
   geom_col(position = position_dodge2(width = 0.7)) +
   ggtitle("Mean Time Spent in Open Arms of EPM") +
   scale_fill_manual(name = "Group",
-                    values = c("#EC9797","#B66666", "#7FA9C7", "#4A7DA2")) + #only two colors used
+                    values = c("#EC9797","#B66666", "#7FA9C7", "#4A7DA2")) + 
   geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem), width = .3, size = .23, color = "#464747", 
                 position = position_dodge(width = 0.9)) + 
   scale_y_continuous("Time (seconds)", breaks= seq(0,250,20),limits=c(0,250),expand = c(0, 0)) +
@@ -472,53 +473,42 @@ figure_s_a
 figure_s_a_heatmap <- ggarrange(p_6a,p_7a,p_8a, ncol = 3, nrow = 1,
                         common.legend = TRUE, legend="bottom")
 figure_s_a_heatmap
-#trying out heatmaps
-p_eee <- ggplot(EPM_all, aes(Behavior, Condition, Sex, Age)) +
-  scale_x_discrete(name="Behavior", labels = c("Freezing", "Latency to Middle", "Time in Open Arms")) + 
-  geom_raster(aes(fill = mean)) + 
-  scale_fill_gradient(low = "white", high = "#1b98e0") 
-  #geom_text(aes(label = round(mean, 1))) 
 
-p_eee
+##trying to stack bars##
 
-p_aaa <- ggplot(EPM_all, aes(Behavior, Sex, fill = mean)) +
-  scale_x_discrete(name="Behavior", labels = c("Freezing", "Latency to Middle", "Time in Open Arms")) + 
-  geom_raster(aes(fill = mean)) +
-  scale_fill_gradient(low = "white", high = "#1b98e0") 
+#this spreadsheet has the # of seconds freezing before crossing included in it
+#number of seconds, not % time freezing because then it would plot sec vs %
+EPM_longer <- EPM %>%
+  rstatix::select(MouseID, Condition:c("Time spent in open arms"), fake) %>%
+  pivot_longer(cols = c("Freeze (first 2 min)"):c("Time spent in open arms"), names_to = "Behavior") %>%
+  pivot_longer(cols = c("fake"), values_to = "Response")
+#group by sex and age as per usual but for this new data frame including freezing
+EPM_group_SlAy <- EPM_longer %>% 
+  unite(Group, c(Sex, Age), sep = " ", remove = FALSE)
+#filter so the data is just for latency to middle
+#calculate mean, std, etc
+EPM_latency_SlAy <- EPM_group_SlAy %>%
+  filter(!is.na(Response), Behavior == "Latency to middle (time stamp)") %>%
+  group_by(Group, Condition) %>% 
+  fig_stats
+#create a combined dataframe where x = freezing and y = latency to middle in seconds
+maximumSlAy <- merge(EPM_latency_SlAy,EPM_latency_s_a,by=c("Group","Condition"))
+#plot! basically just another graph on top
+p_7SlAy <- ggplot(maximumSlAy, aes(x = Condition, y = mean.y, fill = Group)) +
+  geom_col(position = position_dodge2(width = 0.7)) +
+  geom_col(aes(y=mean.x), fill="#25283D", position = position_dodge2(width = 0.7)) +
+  ggtitle("Mean Latency to Middle in EPM") +
+  scale_fill_manual(name = "Group",
+                    values = c("#EC9797","#B66666", "#7FA9C7", "#4A7DA2")) +
+  geom_errorbar(aes(ymin = mean.y - sem.y, ymax = mean.y + sem.y), width = .3, size = .23, color = "#464747", 
+                position = position_dodge(width = 0.9)) + 
+  scale_y_continuous("Time (seconds)", breaks= seq(0,200,20),limits=c(0,200),expand = c(0, 0)) +
+  theme_classic()
 
-p_aaa
+p_7SlAy
 
-p_
-
-library(egg)
-myLimits <- list(
-  list("Freezing", 0, 15),
-  list("Latency to Middle", 0, 150),
-  list("Time in Open Arms", 0, 200)
-)
-
-plotHeat <- function(type, MIN, MAX) {
-  p <- ggplot(subset(EPM_all, Condition == type),
-              aes(Age, Sex, fill = mean, label = Mean)) +
-    geom_tile() +
-    geom_text(color = "black", size = 3) +
-    scale_fill_continuous(type = "viridis", limits = c(MIN, MAX)) +
-    labs(x    = "Groups",
-         y    = NULL,
-         fill = type) +
-    theme_bw()
-  # Output x-axis only for the last plot
-  if (type != myLimits[[length(myLimits)]][[1]]) {
-    p <- p + theme(axis.text.x = element_blank(),
-                   axis.title.x = element_blank(),
-                   axis.line.x = element_blank(),
-                   axis.ticks.x = element_blank())
-  }
-  return(p)
-}
-
-res <- lapply(myLimits, function(x) {plotHeat(x[[1]], x[[2]], x[[3]])})
-ggarrange(plots = res)
+figure_SlAy <- ggarrange(p_7,p_7SlAy,ncol = 1, nrow = 2)
+figure_SlAy
 
 
 
